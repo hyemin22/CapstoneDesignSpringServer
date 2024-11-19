@@ -1,13 +1,10 @@
 package com.capstone.gieokdama.domain.user;
 
 import com.capstone.gieokdama.domain.family.Family;
-import com.capstone.gieokdama.domain.scrap.UserScrapId;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
+@Table(name="user")
 public class User {
 
     @Id
