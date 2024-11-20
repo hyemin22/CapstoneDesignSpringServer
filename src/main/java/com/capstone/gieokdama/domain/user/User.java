@@ -4,7 +4,7 @@ import com.capstone.gieokdama.domain.family.Family;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="user")
+@Table(name="\"user\"")
 public class User {
 
     @Id
