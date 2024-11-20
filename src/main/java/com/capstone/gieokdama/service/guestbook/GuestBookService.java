@@ -48,7 +48,7 @@ public class GuestBookService {
     @Transactional(readOnly = true)
     public List<GuestBookResponse> getGuestBookList(Long user_id) {
         // 유저의 가족 ID를 조회
-        Long familyId = userRepository.findById(user_id).get().getFamily_id();
+        Long familyId = getFamilyIdFromUser(user_id);
         if (familyId == null) {
             throw new RuntimeException("Family not found for user");
         }
