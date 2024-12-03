@@ -9,6 +9,7 @@ import com.capstone.gieokdama.dto.mission.response.RecMissionResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -79,10 +80,29 @@ public class MissionService {
         mission.updateAlarm_time(request.getAlarm_time());
     }
 
+    // 미션 진행률 수정
+    @Transactional
+    public void updateMissionProgress(Long missionId) {
+        Mission mission = missionRepository.findById(missionId)
+                .orElseThrow(() -> new IllegalArgumentException("Mission not found"));
+
+        mission.updateMissionProgress();
+    }
+
     // 미션 조회
     @Transactional(readOnly = true)
     public List<MissionResponse> getMission(Long user_id) {
         return missionRepository.findAllByUser_id(user_id);
+    }
+
+    // 오늘에 해당되는 미션 조회
+    @Transactional(readOnly = true)
+    public List<MissionResponse> getTodayMission(Long user_id) {
+        // 오늘 날짜의 요일을 숫자(1-7)로 가져오기
+        int todayDay = LocalDate.now().getDayOfWeek().getValue(); // 월요일=1, 일요일=7
+        String today = String.valueOf(todayDay);
+
+        return missionRepository.findAllByConditions(user_id, today);
     }
 
     @Transactional(readOnly = true)

@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface WishCategoryRepository extends JpaRepository<WishCategory, Long> {
+public interface WishCategoryRepository extends JpaRepository<WishCategory, Integer> {
 
     @Query("SELECT wc FROM WishCategory wc WHERE wc.familyId = :familyId")
     List<WishCategoryResponse> findAllByFamilyId(Long familyId);

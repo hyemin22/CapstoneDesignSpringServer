@@ -6,7 +6,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
-public class WishResponse {
+public class WishCompletedResponse {
+
     private Long id;
     private String title;
     private String startDate;
@@ -18,8 +19,9 @@ public class WishResponse {
     private String completedDate;
     private String dday;
     private long diffInDays;
+    private Long diaryId;
 
-    public WishResponse(Wish wish) {
+    public WishCompletedResponse(Wish wish) {
         this.id = wish.getId();
         this.title = wish.getTitle();
         this.startDate = wish.getStart_date();
@@ -30,6 +32,7 @@ public class WishResponse {
         this.memo = wish.getMemo();
         this.completedDate = wish.getCompleted_date();
         this.dday = calculateDday(this.startDate);
+        this.diaryId = wish.getDiaryId();
     }
 
     private String calculateDday(String startDate) {
@@ -101,5 +104,9 @@ public class WishResponse {
 
     public void setDiffInDays(long diffInDays) {
         this.diffInDays = diffInDays;
+    }
+
+    public Long getDiaryId() {
+        return diaryId;
     }
 }

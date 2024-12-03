@@ -5,6 +5,7 @@ import com.capstone.gieokdama.dto.wish.request.WishCategoryUpdateRequest;
 import com.capstone.gieokdama.dto.wish.request.WishCreateRequest;
 import com.capstone.gieokdama.dto.wish.request.WishUpdateRequest;
 import com.capstone.gieokdama.dto.wish.response.WishCategoryResponse;
+import com.capstone.gieokdama.dto.wish.response.WishCompletedResponse;
 import com.capstone.gieokdama.dto.wish.response.WishResponse;
 import com.capstone.gieokdama.service.wish.WishService;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +39,13 @@ public class WishController {
         wishService.updateWishCategory(request);
     }
 
-    // 위치 추가
+    // 위시 카테고리 삭제
+    @DeleteMapping("/wish/category")
+    public void deleteWishCategory(@RequestParam Integer id) {
+        wishService.deleteWishCategory(id);
+    }
+
+    // 위시 추가
     @PostMapping("/wish")
     public void saveWish(@RequestBody WishCreateRequest request) {
         wishService.saveWish(request);
@@ -51,9 +58,15 @@ public class WishController {
         return wishService.getWishExpected(userId, category);
     }
 
+    // 2주 내의 위시리스트 조회
+    @GetMapping("/wish/recent")
+    public List<WishResponse> getWishRecent(@RequestParam Long userId) {
+        return wishService.getWishRecent(userId);
+    }
+
     // 완료된 위시리스트 조회
     @GetMapping("/wish/completed")
-    public List<WishResponse> getWishCompleted(@RequestParam Long userId) {
+    public List<WishCompletedResponse> getWishCompleted(@RequestParam Long userId) {
         return wishService.getWishCompleted(userId);
     }
 

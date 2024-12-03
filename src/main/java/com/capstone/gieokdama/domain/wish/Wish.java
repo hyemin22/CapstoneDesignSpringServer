@@ -43,6 +43,9 @@ public class Wish {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime created_at;
 
+    @Column(name = "diary_id")
+    private Long diaryId;
+
     @PrePersist
     protected void onCreate() {
         created_at = LocalDateTime.now();
@@ -127,6 +130,14 @@ public class Wish {
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 M월 d일 완료");
         return completed_date.format(formatter);
+    }
+
+    public Long getDiaryId() {
+        return diaryId;
+    }
+
+    public void setDiaryId(Long diaryId) {
+        this.diaryId = diaryId;
     }
 
     public void updateTitle(String title) {

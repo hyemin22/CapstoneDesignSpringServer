@@ -151,4 +151,10 @@ public class Mission {
     public void updateAlarm_time(LocalTime alarm_time) {
         this.alarm_time = alarm_time;
     }
+
+    public void updateMissionProgress() {
+        if(now_time < goal_time) { // 현재 횟수가 목표횟수보다 작은 경우에만 업데이트 가능
+            this.now_time = now_time + 1;
+        }
+    }
 }

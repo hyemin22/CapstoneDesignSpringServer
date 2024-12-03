@@ -2,10 +2,10 @@ package com.capstone.gieokdama.dto.wish.request;
 
 public class WishCategoryUpdateRequest {
 
-    private Long id;
+    private Integer id;
     private String name;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 

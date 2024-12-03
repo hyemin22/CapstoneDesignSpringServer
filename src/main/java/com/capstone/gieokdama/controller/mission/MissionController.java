@@ -37,9 +37,19 @@ public class MissionController {
         missionService.updateMission(request);
     }
 
+    @PutMapping("/mission/progress")
+    public void updateMissionProgress(@RequestParam Long missionId) {
+        missionService.updateMissionProgress(missionId);
+    }
+
     @DeleteMapping("/mission")
     public void deleteMission(@RequestParam Long id) {
         missionService.deleteMission(id);
     }
+
     // 오늘 요일에 해당되는 미션만 가져오는 get
+    @GetMapping("/mission/today")
+    public List<MissionResponse> getTodayMission(@RequestParam Long userId) {
+        return missionService.getTodayMission(userId);
+    }
 }
