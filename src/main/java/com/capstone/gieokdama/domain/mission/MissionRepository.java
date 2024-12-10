@@ -17,5 +17,4 @@ public interface MissionRepository extends JpaRepository<Mission, Long> {
             "OR (m.cycle IN ('주간 목표', '월간 목표') AND m.now_time < m.goal_time))")
     List<MissionResponse> findAllByConditions(Long userId, String today);
 
-
 }
