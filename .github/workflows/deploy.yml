@@ -38,5 +38,5 @@ jobs:
       run: |
         ssh -i ~/.ssh/your-key.pem ec2-user@${{ secrets.AWS_EC2_HOST }} <<EOF
         pkill -f 'java -jar' || true
-        nohup java -jar /home/ec2-user/gieokdama.jar --spring.profiles.active=dev > /home/ec2-user/app.log 2>&1 &
+        nohup java -jar CapstoneDesignSpringServer/build/libs/gieokdama-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev > /home/ec2-user/app.log 2>&1 &
         EOF
