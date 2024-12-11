@@ -33,6 +33,7 @@ jobs:
         key: ${{ secrets.AWS_PRIVATE_KEY }}
         source: "CapstoneDesignSpringServer/build/libs/gieokdama-0.0.1-SNAPSHOT.jar"
         target: "/home/ec2-user/gieokdama.jar"
+        debug: true
 
     - name: Start application
       run: |
