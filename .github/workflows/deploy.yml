@@ -1,0 +1,38 @@
+name: Deploy to AWS EC2
+
+on:
+  push:
+    branches:
+      - master  # master 브랜치로 푸시될 때 실행
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Java
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+
+    - name: Build with Gradle
+      run: ./gradlew clean build
+
+    - name: Deploy to AWS EC2
+      uses: appleboy/scp-action@v0.1.0
+      with:
+        host: ${{ secrets.AWS_EC2_HOST }}
+        username: ${{ secrets.AWS_EC2_USER }}
+        key: ${{ secrets.AWS_PRIVATE_KEY }}
+        source: "CapstoneDesignSpringServer/build/libs/gieokdama-0.0.1-SNAPSHOT.jar"
+        target: "/home/ec2-user/gieokdama.jar"
+
+    - name: Start application
+      run: |
+        ssh -i ~/.ssh/your-key.pem ec2-user@${{ secrets.AWS_EC2_HOST }} <<EOF
+        pkill -f 'java -jar' || true
+        nohup java -jar /home/ec2-user/gieokdama.jar --spring.profiles.active=dev > /home/ec2-user/app.log 2>&1 &
+        EOF
