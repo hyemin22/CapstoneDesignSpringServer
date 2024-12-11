@@ -5,6 +5,7 @@ import com.capstone.gieokdama.domain.wish.Wish;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Locale;
 
 public class WishCompletedResponse {
 
@@ -36,9 +37,10 @@ public class WishCompletedResponse {
     }
 
     private String calculateDday(String startDate) {
-        // 현재 날짜와 시작 날짜를 LocalDate로 변환
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd(E)"); // 날짜 포맷에 맞춰 설정
-        LocalDate start = LocalDate.parse(startDate, formatter);
+        // 날짜 포맷 설정 및 요일 부분 제외
+        String dateWithoutWeekday = startDate.split("\\(")[0].trim(); // 요일 제거
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd", Locale.KOREAN);
+        LocalDate start = LocalDate.parse(dateWithoutWeekday, formatter);
         LocalDate now = LocalDate.now();
 
         if (startDate != null) {
