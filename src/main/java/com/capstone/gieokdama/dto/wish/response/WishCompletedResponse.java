@@ -37,13 +37,16 @@ public class WishCompletedResponse {
     }
 
     private String calculateDday(String startDate) {
-        // 날짜 포맷 설정 및 요일 부분 제외
-        String dateWithoutWeekday = startDate.split("\\(")[0].trim(); // 요일 제거
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd", Locale.KOREAN);
-        LocalDate start = LocalDate.parse(dateWithoutWeekday, formatter);
-        LocalDate now = LocalDate.now();
+        // 날짜가 null이거나 빈 문자열일 경우
+        if (startDate == null || startDate.isEmpty()) {
+            return "미정"; // 미정 혹은 원하는 기본 값
+        } else {
+            // 날짜 포맷 설정 및 요일 부분 제외
+            String dateWithoutWeekday = startDate.split("\\(")[0].trim(); // 요일 제거
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd", Locale.KOREAN);
+            LocalDate start = LocalDate.parse(dateWithoutWeekday, formatter);
+            LocalDate now = LocalDate.now();
 
-        if (startDate != null) {
             // 날짜 차이 계산
             long daysBetween = ChronoUnit.DAYS.between(now, start);
 
@@ -54,9 +57,6 @@ public class WishCompletedResponse {
             } else {
                 return "D-day"; // 오늘
             }
-        } else {
-            // 미정
-            return "미정";
         }
     }
 
