@@ -19,8 +19,11 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
+    - name: Make Gradle Wrapper Executable
+      run: chmod +x gradlew  # Add execution permissions to gradlew script
+
     - name: Build with Gradle
-      run: ./gradlew clean build
+      run: ./gradlew clean build --no-daemon
 
     - name: Deploy to AWS EC2
       uses: appleboy/scp-action@v0.1.0
