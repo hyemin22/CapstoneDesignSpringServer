@@ -8,11 +8,9 @@ import com.capstone.gieokdama.domain.wish.WishRepository;
 import com.capstone.gieokdama.dto.diary.request.AlbumCreateRequest;
 import com.capstone.gieokdama.dto.diary.request.DiaryCreateRequest;
 import com.capstone.gieokdama.dto.diary.response.*;
-import com.capstone.gieokdama.service.wish.WishService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -154,8 +152,22 @@ public class DiaryService {
         // 작성한 사람의 가족 ID 가져오기
         Long familyId = user.getFamily_id();
 
+        return diaryRepository.findDiaryNum(familyId);
+    }
+
+    // 일기 전체 개수 조회
+    @Transactional(readOnly = true)
+    public Integer getAllDiaryNum(Long userId) {
+        // 작성한 사람 정보 가져오기
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
+
+        // 작성한 사람의 가족 ID 가져오기
+        Long familyId = user.getFamily_id();
+
         return diaryRepository.findAllDiaryNum(familyId);
     }
+
 
     // 일기 리스트 조회(장소별)
     @Transactional(readOnly = true)

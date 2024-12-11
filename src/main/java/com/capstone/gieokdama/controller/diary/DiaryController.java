@@ -76,6 +76,12 @@ public class DiaryController {
         return diaryService.getDiaryNum(userId);
     }
 
+    // 일기 전체 개수 확인
+    @GetMapping("/diary/all")
+    public Integer getAllDiaryNum(@RequestParam Long userId) {
+        return diaryService.getAllDiaryNum(userId);
+    }
+
     // 일기 확인(위치별)
     @GetMapping("/diary/address")
     public List<DiaryAddressResponse> getDiary3(@RequestParam Long userId) {

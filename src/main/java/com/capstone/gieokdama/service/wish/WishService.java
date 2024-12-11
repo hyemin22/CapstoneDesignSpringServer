@@ -190,7 +190,6 @@ public class WishService {
         // 작성한 사람의 가족 ID 가져오기
         Long familyId = user.getFamily_id();
 
-        System.out.println("count" + wishRepository.findByFamilyIdAndCompleted(familyId, false).size());
         return wishRepository.findByFamilyIdAndCompleted(familyId, completed).size();
     }
 
