@@ -63,6 +63,32 @@ public class DiaryService {
         return albumRepository.findAllByFamilyId(familyId);
     }
 
+    // 앨범명 수정
+    @Transactional
+    public void updateAlbumName(Long albumId, String albumName) {
+        // 수정하려는 앨범 정보 가져오기
+        Album album = albumRepository.findById(albumId)
+                .orElseThrow(() -> new IllegalArgumentException("Album not found with id: " + albumId));
+
+        // 앨범명 수정
+        album.updateTitle(albumName);
+    }
+
+    // 앨범 삭제
+    @Transactional
+    public void deleteAlbum(Long albumId) {
+        // 삭제하려는 앨범 정보 가져오기
+        Album album = albumRepository.findById(albumId)
+                .orElseThrow(() -> new IllegalArgumentException("Album not found with id: " + albumId));
+
+        // 앨범에 포함된 diary 데이터 삭제
+        diaryRepository.deleteByAlbumId(albumId);
+
+        // 앨범 삭제
+        albumRepository.delete(album);
+    }
+
+
     // 일기 저장
     @Transactional
     public void saveDiary(DiaryCreateRequest request, Optional<Long> wishId) {

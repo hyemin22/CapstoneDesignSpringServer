@@ -25,7 +25,7 @@ public interface WishRepository extends JpaRepository<Wish, Long> {
             "WHERE w.familyId = :familyId " +
             "AND w.completed = :completed")
     List<WishCompletedResponse> findAllWishCompleted(@Param("familyId") Long familyId,
-                                                              @Param("completed") boolean completed);
+                                                     @Param("completed") boolean completed);
 
     @Query("SELECT new com.capstone.gieokdama.dto.wish.response.WishResponse(w) " +
             "FROM Wish w " +
@@ -41,6 +41,8 @@ public interface WishRepository extends JpaRepository<Wish, Long> {
             "AND w.completed = :completed")
     List<WishResponse> findAllWishRecent(@Param("familyId") Long familyId,
                                          @Param("completed") boolean completed);
+
+    void deleteByCategory(Integer categoryId);
 
     Optional<Object> findById(Optional<Long> wishId);
 }

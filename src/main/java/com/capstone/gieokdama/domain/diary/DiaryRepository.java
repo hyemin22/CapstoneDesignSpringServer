@@ -37,9 +37,12 @@ public interface DiaryRepository extends JpaRepository<Diary, Long> {
             "GROUP BY d.diary_date")
     List<DiaryNum> findDiaryNum(@Param("familyId") Long familyId);
 
+
     @Query("SELECT COUNT(d) " +
             "FROM Diary d " +
             "WHERE d.family_id = :familyId")
     Integer findAllDiaryNum(@Param("familyId") Long familyId);
+
+    void deleteByAlbumId(Long albumId);
 
 }

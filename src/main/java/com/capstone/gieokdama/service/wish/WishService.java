@@ -1,11 +1,10 @@
 package com.capstone.gieokdama.service.wish;
 
+import com.capstone.gieokdama.domain.diary.DiaryLike;
+import com.capstone.gieokdama.domain.diary.DiaryLikeId;
 import com.capstone.gieokdama.domain.user.User;
 import com.capstone.gieokdama.domain.user.UserRepository;
-import com.capstone.gieokdama.domain.wish.Wish;
-import com.capstone.gieokdama.domain.wish.WishCategory;
-import com.capstone.gieokdama.domain.wish.WishCategoryRepository;
-import com.capstone.gieokdama.domain.wish.WishRepository;
+import com.capstone.gieokdama.domain.wish.*;
 import com.capstone.gieokdama.dto.wish.request.WishCategoryCreateRequest;
 import com.capstone.gieokdama.dto.wish.request.WishCategoryUpdateRequest;
 import com.capstone.gieokdama.dto.wish.request.WishCreateRequest;
@@ -27,13 +26,15 @@ public class WishService {
 
     private final WishCategoryRepository wishCategoryRepository;
     private final WishRepository wishRepository;
+    private final WishLikeRepository wishLikeRepository;
     private final UserRepository userRepository;
 
     public WishService(WishRepository wishRepository, UserRepository userRepository,
-                       WishCategoryRepository wishCategoryRepository) {
+                       WishCategoryRepository wishCategoryRepository, WishLikeRepository wishLikeRepository) {
         this.wishCategoryRepository = wishCategoryRepository;
         this.wishRepository = wishRepository;
         this.userRepository = userRepository;
+        this.wishLikeRepository = wishLikeRepository;
     }
 
     @Transactional
@@ -80,6 +81,10 @@ public class WishService {
         WishCategory wishCategory = wishCategoryRepository.findById(id)
                 .orElseThrow(IllegalArgumentException::new);
 
+        // 카테고리를 참조하는 wish 데이터 삭제
+        wishRepository.deleteByCategory(id);
+
+        // 카테고리 삭제
         wishCategoryRepository.delete(wishCategory);
     }
 
@@ -219,5 +224,28 @@ public class WishService {
                 .orElseThrow(IllegalArgumentException::new);
 
         wishRepository.delete(wish);
+    }
+
+    // 위시 좋아요 추가
+    @Transactional
+    public void saveLike(Long wishId, Long userId) {
+        WishLike wishLike = new WishLike(wishId, userId);
+
+        wishLikeRepository.save(wishLike);
+    }
+
+    // 위시 좋아요 조회
+    @Transactional(readOnly = true)
+    public List<Long> getLike(Long wishId) {
+        return wishLikeRepository.findLikeByWishId(wishId);
+    }
+
+    // 위시 좋아요 삭제
+    @Transactional
+    public void deleteLike(Long wishId, Long userId) {
+        WishLike wishLike = wishLikeRepository.findByUserIdAndWishId(userId, wishId)
+                .orElseThrow(IllegalArgumentException::new);
+
+        wishLikeRepository.delete(wishLike);
     }
 }

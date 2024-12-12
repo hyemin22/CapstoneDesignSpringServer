@@ -94,4 +94,24 @@ public class WishController {
     public void deleteWish(@RequestParam Long id) {
         wishService.deleteWish(id);
     }
+
+    // 위시 좋아요 추가
+    @PostMapping("/wish/like")
+    public void saveLike(@RequestParam Long wishId,
+                         @RequestParam Long userId) {
+        wishService.saveLike(wishId, userId);
+    }
+
+    // 위시 좋아요 조회
+    @GetMapping("/wish/like")
+    public List<Long> getLike(@RequestParam Long wishId) {
+        return wishService.getLike(wishId);
+    }
+
+    // 위시 좋아요 삭제
+    @DeleteMapping("/wish/like")
+    public void deleteLike(@RequestParam Long wishId,
+                           @RequestParam Long userId) {
+        wishService.deleteLike(wishId, userId);
+    }
 }

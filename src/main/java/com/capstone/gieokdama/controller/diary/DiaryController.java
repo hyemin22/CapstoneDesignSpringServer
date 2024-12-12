@@ -34,6 +34,20 @@ public class DiaryController {
         return diaryService.getAlbum(userId);
     }
 
+    // 앨범명 수정
+    @PutMapping("/album")
+    public void updateAlbumName(@RequestParam Long albumId,
+                                @RequestParam String albumName) {
+        diaryService.updateAlbumName(albumId, albumName);
+    }
+
+    // 앨범 삭제
+    @DeleteMapping("/album")
+    public void deleteAlbum(@RequestParam Long albumId) {
+        diaryService.deleteAlbum(albumId);
+    }
+
+
     // 일기 추가
     @PostMapping("/diary")
     public void saveDiary(@ModelAttribute DiaryCreateRequest request,
